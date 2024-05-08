@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 interface ApiParameter {
     description: string;
     population: string;
@@ -41,15 +43,13 @@ function getHolidays() {
                 middleDates.push(middleDate.toISOString());
             }
 
-            console.log(middleDates)
-
             let isPapa = yearData();
             const splittedHolidays = [
-                {"Noel": [startDates[0], `<-- ${isPapa ? "maman" : "papa"} -->`, middleDates[0], `<-- ${isPapa ? "papa" : "maman"} -->`, endDates[0]]},
-                {"Hiver": [startDates[1], `<-- ${isPapa ? "papa" : "maman"} -->`, middleDates[1], `<-- ${isPapa ? "maman" : "papa"} -->`, endDates[1]]},
-                {"Toussaint": [startDates[3], `<-- ${isPapa ? "papa" : "maman"} -->`, middleDates[3], `<-- ${isPapa ? "maman" : "papa"} -->`, endDates[3]]},
-                {"Printemps": [startDates[4], `<-- ${isPapa ? "papa" : "maman"} -->`, middleDates[4], `<-- ${isPapa ? "maman" : "papa"} -->`, endDates[4]]},
-                {"Ete": [startDates[5], `<-- ${isPapa ? "papa" : "maman"} -->`, middleDates[5], `<-- ${isPapa ? "maman" : "papa"} -->`, endDates[5]]}
+                {"Noel": [startDates[0], `${isPapa ? "0" : "1"}`, middleDates[0], `${isPapa ? "1" : "0"}`, endDates[0]]},
+                {"Hiver": [startDates[1], `<-- ${isPapa ? "1" : "0"}`, middleDates[1], `${isPapa ? "0" : "1"}`, endDates[1]]},
+                {"Toussaint": [startDates[3], `<-- ${isPapa ? "1" : "0"}`, middleDates[3], `${isPapa ? "0" : "1"}`, endDates[3]]},
+                {"Printemps": [startDates[4], `<-- ${isPapa ? "1" : "0"}`, middleDates[4], `${isPapa ? "0" : "1"}`, endDates[4]]},
+                {"Ete": [startDates[5], `<-- ${isPapa ? "1" : "0"}`, middleDates[5], `${isPapa ? "0" : "1"}`, endDates[5]]}
             ];
     
             resolve(splittedHolidays);
@@ -59,8 +59,35 @@ function getHolidays() {
     });
 }
 
+function getWeekends() {
+    let papa: string[] = [];
+    let maman: string[] = []; 
+    let weekNum: number = 0;
+    let fridayList: Date[] = [];
+    let sundayList: Date[] = [];
+
+    while (weekNum < 152) {
+        weekNum++;
+        if (weekNum%2 === 0) {
+            papa.push(weekNum.toString());
+        } else {
+            maman.push(weekNum.toString());
+        }
+    }
+
+    for (let i in papa) {
+        const friday = moment().isoWeek(papa[i]).add(2, 'days').toDate();
+        const sunday = moment().isoWeek(papa[i]).add(4, 'days').toDate();
+        fridayList.push(friday);
+        sundayList.push(sunday);
+    }
+
+    return [fridayList, sundayList];
+}
+ 
 getHolidays().then(holidays => {
     console.log(holidays);
+    console.log(getWeekends());
 }).catch(error => {
     console.error('Error fetching holidays:', error);
 });
