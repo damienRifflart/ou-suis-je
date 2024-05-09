@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import React, { useState } from "react";
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 
 let passwordIsGood: boolean = false;
 
@@ -47,7 +47,7 @@ export default function Home() {
         <p className="text-white text-sm xl:text-xl">
           {data.pin === password.password
             ? "Vous avez été authentifié. ✅"
-            : "Le mot de passe n'est pas bon. ❌"}
+            : "Mauvais mot de passe. ❌"}
         </p>
       ),
     });
@@ -65,7 +65,7 @@ export default function Home() {
               <h1 className="my-3 text-xl text-center">
                 Voici le <span className="bg-gradient-to-r from-primary to-accent inline-block bg-clip-text text-transparent font-bold">
                   calendrier
-                </span> de l'année scolaire 2023-2024
+                </span> de l&apos;année scolaire 2023-2024
               </h1>
               <Calendar mode="single"/>
             </div>
