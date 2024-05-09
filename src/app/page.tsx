@@ -2,6 +2,7 @@
 
 import password from "@/app/password.json";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar"
 import {
   InputOTP,
   InputOTPGroup,
@@ -15,12 +16,13 @@ import { toast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import React, { useState } from "react";
+import 'react-calendar/dist/Calendar.css';
 
 let passwordIsGood: boolean = false;
 
@@ -31,6 +33,7 @@ const FormSchema = z.object({
 });
 
 export default function Home() {
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -55,51 +58,69 @@ export default function Home() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="w-full max-w-7xl items-center justify-between lg:flex">
+    <>
+      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <div className="w-full max-w-7xl items-center justify-between lg:flex">
 
-        {passwordIsGood ? (
-          <p>gdfshgdfh</p>
+          {passwordIsGood ? (
+            <>
+              <Calendar
+                mode="single"
+                className="border rounded-sm border-primary"
+              />
+            </>
+            
+          ) : (
+            <Form {...form}>
+              <p className="text-3xl">
+                Bonjour, veuillez entrer un
+                <span className="bg-gradient-to-r from-primary to-accent inline-block bg-clip-text text-transparent font-bold">
+                  mot de passe
+                </span>
+                :
+              </p>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="w-2/3 space-y-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="pin"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mot de passe:</FormLabel>
+                      <FormControl>
+                        <InputOTP maxLength={6} {...field}>
+                          <InputOTPGroup>
+                            <InputOTPSlot index={0} />
+                            <InputOTPSlot index={1} />
+                            <InputOTPSlot index={2} />
+                          </InputOTPGroup>
+                          <InputOTPSeparator />
+                          <InputOTPGroup>
+                            <InputOTPSlot index={3} />
+                            <InputOTPSlot index={4} />
+                            <InputOTPSlot index={5} />
+                          </InputOTPGroup>
+                        </InputOTP>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-        ) : (
-          <Form {...form}>
-          <p className="text-3xl">
-            Bonjour, veuillez entrer un
-            <span className="bg-gradient-to-r from-primary to-accent inline-block bg-clip-text text-transparent font-bold">
-              mot de passe
-            </span>
-            :
-          </p>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-            <FormField control={form.control} name="pin" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mot de passe:</FormLabel>
-                  <FormControl>
-                    <InputOTP maxLength={6} {...field} >
-                      <InputOTPGroup>
-                        <InputOTPSlot index={0} />
-                        <InputOTPSlot index={1} />
-                        <InputOTPSlot index={2} />
-                      </InputOTPGroup>
-                      <InputOTPSeparator />
-                      <InputOTPGroup>
-                        <InputOTPSlot index={3} />
-                        <InputOTPSlot index={4} />
-                        <InputOTPSlot index={5} />
-                      </InputOTPGroup>
-                    </InputOTP>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" className="rounded-md hover:-translate-y-1 transition ease-in-out">Submit</Button>
-          </form>
-          <img src="./icon.png" alt="icon" className="w-[300px]" />
-        </Form>
-        )}
-      </div>
-    </main>
+                <Button
+                  type="submit"
+                  className="rounded-md hover:-translate-y-1 transition ease-in-out"
+                >
+                  Submit
+                </Button>
+              </form>
+              <img src="./icon.png" alt="icon" className="w-[300px]" />
+            </Form>
+          )}
+        </div>
+      </main>
+    </>
   );
 }
