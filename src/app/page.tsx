@@ -2,7 +2,7 @@
 
 import password from "@/app/password.json";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar"
+import { Calendar } from "@/components/ui/calendar";
 import {
   InputOTP,
   InputOTPGroup,
@@ -119,9 +119,6 @@ export default function Home() {
                   Entrer
                 </Button>
               </form>
-              <div className="flex items-center justify-center">
-                <img src="./icon.png" alt="icon" className="w-2/3 md:w-1/4 xl:w-1/2" />
-              </div>
           </Form>
         </div>
       )}
