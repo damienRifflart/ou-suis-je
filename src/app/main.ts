@@ -1,5 +1,3 @@
-const moment = require('moment');
-
 type PapaDaysData = { name: string; start: Date, end: Date }[];
 let papaDays: PapaDaysData = [];
 type holidayData = { start: string, end: string }[];
@@ -92,8 +90,24 @@ function getWeekends() {
     }
 
     for (let i in papa) {
-        const friday = moment().isoWeek(papa[i]).add(1, 'days').toDate();
-        const sunday = moment().isoWeek(papa[i]).add(3, 'days').toDate();
+        function isoWeekToDate(weekNum: number) {
+            const now = new Date();
+            const startOfYear = new Date(now.getFullYear(), 0, 1);
+            const days = (weekNum - 1) * 7;
+
+            let firstDayOfWeek = new Date(startOfYear);
+            firstDayOfWeek.setDate(firstDayOfWeek.getDate() + days - firstDayOfWeek.getDay() + 1);
+        
+            let friday = new Date(firstDayOfWeek);
+            let sunday = new Date(firstDayOfWeek);
+            friday.setDate(friday.getDate() + 5);
+            sunday.setDate(sunday.getDate() + 6)
+        
+            return [friday, sunday];
+        }
+        
+        const friday = isoWeekToDate(parseInt(papa[i]))[0];
+        const sunday = isoWeekToDate(parseInt(papa[i]))[1];
         fridayList.push(new Date(friday));
         sundayList.push(new Date(sunday));
     }
