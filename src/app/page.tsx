@@ -33,7 +33,6 @@ const FormSchema = z.object({
 });
 
 export default function Home() {
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,7 +44,7 @@ export default function Home() {
     toast({
       title: "Authentification:",
       description: (
-        <p className="text-white text-xl">
+        <p className="text-white text-sm xl:text-xl">
           {data.pin === password.password
             ? "Vous avez été authentifié. ✅"
             : "Le mot de passe n'est pas bon. ❌"}
@@ -59,26 +58,30 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <div className="w-full max-w-7xl items-center justify-between lg:flex">
-
-          {passwordIsGood ? (
-            <>
-              <Calendar
-                mode="single"
-                className="border rounded-sm border-primary"
-              />
-            </>
+      {passwordIsGood ? (
+        <>
+          <div className="flex items-center justify-center h-screen">
+            <div className="flex flex-col items-center justify-center">
+              <h1 className="my-3 text-xl text-center">
+                Voici le <span className="bg-gradient-to-r from-primary to-accent inline-block bg-clip-text text-transparent font-bold">
+                  calendrier
+                </span> de l'année scolaire 2023-2024
+              </h1>
+              <Calendar mode="single"/>
+            </div>
+          </div>
+        </>
             
-          ) : (
-            <Form {...form}>
-              <p className="text-3xl">
-                Bonjour, veuillez entrer un
-                <span className="bg-gradient-to-r from-primary to-accent inline-block bg-clip-text text-transparent font-bold">
-                  mot de passe
-                </span>
-                :
-              </p>
+      ) : (
+        <div className="flex flex-col p-10 justify-between xl:flex-row xl:items-center xl:p-24">   
+          <Form {...form}>
+            <p className="text-xl w-full mb-5 xl:text-3xl">
+              Bonjour, veuillez entrer un <span className="bg-gradient-to-r from-primary to-accent inline-block bg-clip-text text-transparent font-bold">
+              mot de passe
+              </span>
+              :
+            </p>
+
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="w-2/3 space-y-6"
@@ -111,16 +114,17 @@ export default function Home() {
 
                 <Button
                   type="submit"
-                  className="rounded-md hover:-translate-y-1 transition ease-in-out"
+                  className="rounded-md hover:-translate-y-1 transition ease-in-out mb-[50px]"
                 >
-                  Submit
+                  Entrer
                 </Button>
               </form>
-              <img src="./icon.png" alt="icon" className="w-[300px]" />
-            </Form>
-          )}
+              <div className="flex items-center justify-center">
+                <img src="./icon.png" alt="icon" className="w-2/3 md:w-1/4 xl:w-1/2" />
+              </div>
+          </Form>
         </div>
-      </main>
+      )}
     </>
   );
 }

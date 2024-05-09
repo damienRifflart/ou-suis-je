@@ -1,6 +1,3 @@
-import { getWeek } from "date-fns";
-import { start } from "repl";
-
 const moment = require('moment');
 
 type PapaDaysData = { name: string; start: Date, end: Date }[];
@@ -74,7 +71,6 @@ function getHolidays(): Promise<PapaDaysData> {
 
 function isOverlapping(newStart: Date, newEnd: Date): boolean {
     for (let i = 0; i < holidaysList.length; i++) {
-        console.log(holidaysList[4])
         if (newStart >= new Date(holidaysList[i].start) && newEnd <= new Date(holidaysList[i].end)) {
             return true;
         }
