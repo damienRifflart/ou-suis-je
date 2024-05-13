@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/form";
 import React, { useState } from "react";
 import "react-calendar/dist/Calendar.css";
+import Image from 'next/image'
 
 let passwordIsGood: boolean = false;
 
@@ -120,6 +121,14 @@ export default function Home() {
                 </Button>
               </form>
           </Form>
+          <div className="flex justify-center">
+            <Image
+              src="/icon.png"
+              width={275}
+              height={275}
+              alt="Icon"
+            />
+          </div>
         </div>
       )}
     </>
